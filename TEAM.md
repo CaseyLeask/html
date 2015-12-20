@@ -8,6 +8,37 @@ The green button shall not be pushed. Each change needs to result in a single co
 
 For optimal merges, the following instructions may be helpful:
 
+### Fetching pull requests from forks
+
+To be able to more easily review pull requests from forks, you can optionally configure your clone such that:
+
+* alongside the fetched branches you already have for all normal named branches local to this repo, you'll also have fetched branches for all existing PRs
+* each time you run `git fetch` or `git pull` and it finds a PR branch *NNN* you don’t have in your clone, you `git` will automatically fetch that branch into your clone, giving it a branch name of the form `pr/NNN`
+* you can `git checkout` any PR branch you want to build/review, and use `git merge` to pull any updates to it
+
+To do all that, use these steps:
+
+1. Make the following addition to your `html/.git/config` to enable automatic fetch of branches in PRs from forks:
+
+  ```diff
+    [remote "origin"]
+           url = git@github.com:whatwg/html.git
+           fetch = +refs/heads/*:refs/remotes/origin/*
+   +        fetch = +refs/pull/*/head:refs/remotes/origin/pr/*
+  ```
+  (Omit the `+` sign; it’s just `diff` syntax to get the markdown viewer to highlight the line.)
+
+2.  Run `git fetch` or `git pull` to do the initial fetch of all branches for current PRs.
+
+3.  Run `git checkout pr/NNN` to check out a particular PR branch.
+
+4.  If a contributor subsequently pushes changes to the corresponding branch for that PR in their fork (for example, in response to your review comments), then while you're on the checked-out `pr/NNN` branch locally you can pull those changes  by doing the following:
+
+  ```bash
+  git fetch
+  git merge origin/pr/NNN
+  ```
+
 ### Merging pull requests from forks
 
 Pull requests from external contributors come from their forks. Here is a Bash function that you can add to your `.bash_profile` or similar that makes it easy to merge such PRs:
