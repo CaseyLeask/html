@@ -34,12 +34,12 @@ To do all that, use these steps:
 	
 	* Alternatively, to enable automatic fetch of branches in PRs from forks **just for this repo**, make the following addition to your `.git/config` file in this directory:
 
-  ```diff
-    [remote "origin"]
-            url = git@github.com:whatwg/html.git
-            fetch = +refs/heads/*:refs/remotes/origin/*
-   +         fetch = +refs/pull/*/head:refs/remotes/origin/pr/*
-  ```
+     ```diff
+       [remote "origin"]
+               url = git@github.com:whatwg/html.git
+               fetch = +refs/heads/*:refs/remotes/origin/*
+    +        fetch = +refs/pull/*/head:refs/remotes/origin/pr/*
+     ```
         (Omit the `+` sign; it’s just `diff` syntax to get the markdown viewer to highlight the line.)
 
 2. Run `git fetch` or `git pull` to do the initial fetch of all branches for current PRs.
