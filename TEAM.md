@@ -17,15 +17,30 @@ Pull requests from external contributors come from their forks. To be able to mo
 
 To do all that, use these steps:
 
-1. Make the following addition to your `.git/config` file in this directory to enable automatic fetch of branches in PRs from forks:
+1. Do one of the following:
+   * Run the following command to **globally configure, for all repositories you pull from**, automatic fetch of branches for PRs from forks:
+
+     ```bash
+     git config --global --add remote.origin.fetch "+refs/pull/*/head:refs/remotes/origin/pr/*"
+     ```
+     That will add the following two lines to your `$HOME/.gitconfig` file:
+  
+     ```
+     [remote "origin"]
+              fetch = +refs/pull/*/head:refs/remotes/origin/pr/*
+	   ```
+	
+	   If you change your mind later about globally enabling that behavior, you can disable it by removing those lines.
+	
+	* Alternatively, to enable automatic fetch of branches in PRs from forks **just for this repo**, make the following addition to your `.git/config` file in this directory:
 
   ```diff
     [remote "origin"]
-           url = git@github.com:whatwg/html.git
-           fetch = +refs/heads/*:refs/remotes/origin/*
-   +        fetch = +refs/pull/*/head:refs/remotes/origin/pr/*
+            url = git@github.com:whatwg/html.git
+            fetch = +refs/heads/*:refs/remotes/origin/*
+   +         fetch = +refs/pull/*/head:refs/remotes/origin/pr/*
   ```
-  (Omit the `+` sign; it’s just `diff` syntax to get the markdown viewer to highlight the line.)
+        (Omit the `+` sign; it’s just `diff` syntax to get the markdown viewer to highlight the line.)
 
 2. Run `git fetch` or `git pull` to do the initial fetch of all branches for current PRs.
 
